@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/icon_reservation"
+        android:enabled="true"
+        android:icon="@drawable/ic_nav_clipboard"
+        android:title="예약목록"/>
+
+    <item
+        android:id="@+id/icon_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_nav_home"
+        android:title="홈"/>
+
+    <item
+        android:id="@+id/icon_user"
+        android:enabled="true"
+        android:icon="@drawable/ic_nav_user"
+        android:title="유저"/>
+
+</menu>

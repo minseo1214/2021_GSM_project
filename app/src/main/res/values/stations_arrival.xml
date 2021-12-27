@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="stations_arrival">
+
+        <item>목적지를 선택하세요</item>
+        <item>1층 교무실 앞</item>
+        <item>2층 교무실 앞</item>
+        <item>3층 교무실 앞</item>
+        <item>4층 교무실 앞</item>
+        <item>기숙사 문 앞</item>
+
+    </string-array>
+
+</resources>

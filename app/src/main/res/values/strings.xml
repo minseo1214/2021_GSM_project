@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Lieferung</string>
+
+    <string name="login">로그인</string>
+    <string name="join_mbs">회원가입</string>
+
+    <string name="name">이름</string>
+    <string name="type_name">이름을 입력해주세요</string>
+    <string name="phone">휴대전화</string>
+    <string name="type_phone">전화번호를 입력해주세요</string>
+    <string name="certify_number">인증번호</string>
+    <string name="type_certify">인증번호를 입력해주세요</string>
+    <string name="id">아이디</string>
+    <string name="type_id">아이디를 입력해주세요</string>
+    <string name="pw">비밀번호</string>
+    <string name="type_pw">비밀번호를 입력해주세요</string>
+
+    <string name="find_id">아이디 찾기</string>
+    <string name="find_pw">비밀번호 찾기</string>
+
+    <string name="user_name">{null}</string>
+    <string name="welcome">님 환영합니다</string>
+    <string name="main">본관</string>
+    <string name="dormitory">기숙사</string>
+    <string name="account">계정</string>
+    <string name="logout">로그아웃</string>
+    <string name="withdrawal">계정 탈퇴</string>
+
+    <string name="my_reserve">내 예약</string>
+    <string name="accept_list">수락한 목록</string>
+    <string name="reserve_req">예약 요청</string>
+
+    <string name="starting_point">출발지를 선택하세요</string>
+    <string name="destination">목적지를 선택하세요</string>
+    <string name="estimate_time">예상 시간</string>
+    <string name="surround_person">주변 사람</string>
+    <string name="people">명</string>
+    <string name="receive_time">수령 시간</string>
+    <string name="reserve">예약</string>
+
+    <string name="can_reserve1">로봇예약이 </string>
+    <string name="can_reserve2_1">가능</string>
+    <string name="can_reserve2_2">불가능</string>
+    <string name="can_reserve3">합니다</string>
+    <string name="battery">{null}</string>
+    <string name="state">상태</string>
+    <string name="wait">대기 중</string>
+    <string name="charging">충전중</string>
+    <string name="delivering">배달중</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment_1">Home Page [Blank]</string>
+    <string name="hello_blank_fragment_2">Reservation Page [Blank]</string>
+    <string name="hello_blank_fragment_3">User Page [Blank]</string>
+</resources>
