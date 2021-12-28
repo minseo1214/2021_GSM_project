@@ -10,10 +10,14 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import com.example.lieferung.databinding.ActivityBlelistBinding
+import java.io.IOException
 import java.lang.Exception
+import java.util.*
+import kotlin.collections.ArrayList
 
 lateinit var textStatus: TextView
 lateinit var btnPaired: Button
@@ -25,6 +29,8 @@ lateinit var btArrayAdapter: ArrayAdapter<String>
 lateinit var deviceAddressArray: ArrayList<String>
 
 private val btAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+
+val MY_UUID = null
 
 class BLEListActivity : AppCompatActivity() {
 
@@ -135,9 +141,90 @@ class BLEListActivity : AppCompatActivity() {
             var btSocket: BluetoothSocket? = null
 
             //socket 만들고 연결
+            try {
+                btSocket = device?.createRfcommSocketToServiceRecord(MY_UUID)
+                btSocket?.connect()
+            } catch (e: IOException) {
+                flag = false
+                textStatus.setText("Connection failed!")
+                e.printStackTrace()
+            }
 
+            if (flag) {
+                textStatus.setText("connected to "+ name)
+                val connectThread: ConnectThread = ConnectThread(btSocket)
+                connectThread.start()
+            }
         }
     }
+
+    //서버측 연결 메커니즘
+    private inner class AcceptThread: Thread() {
+        private val mmServerSocket: BluetoothServerSocket? by lazy(LazyThreadSafetyMode.NONE) {
+            btAdapter?.listenUsingInsecureRfcommWithServiceRecord(name, MY_UUID)
+        }
+
+        override fun run() {
+            //예외가 발생하거나 소켓이 반환될 때까지 계속 수신
+            var shouldLoop = true
+            while (shouldLoop) {
+                val socket: BluetoothSocket? = try {
+                    mmServerSocket?.accept()
+                } catch (e: IOException) {
+                    Log.d("로그_소켓수신_실패: ", "Socket's accept() method failed")
+                    shouldLoop = false
+                    null
+                }
+                socket?.also {
+                    manageMyConnectedSocket(it)     //연결 관리 섹션 - 데이터 전송 스레드 시작
+                    mmServerSocket?.close()
+                    shouldLoop = false
+                }
+            }
+        }
+
+        //연결 소켓을 닫고 스레드 마치기
+        fun cancel() {
+            try {
+                mmServerSocket?.close()
+            } catch (e: IOException) {
+                Log.d("로그_소켓수신_오류: ", "Could not close the connect socket")
+            }
+        }
+    }
+
+    //클라이언트측 연결 메커니즘
+    private inner class ConnectThread(device: BluetoothDevice): Thread() {
+        private val mmSocket: BluetoothSocket? by lazy(LazyThreadSafetyMode.NONE) {
+            device.createRfcommSocketToServiceRecord(MY_UUID)
+        }
+
+        public override fun run() {
+            //연결 속도가 느려지므로 검색 취소
+            btAdapter?.cancelDiscovery()
+
+            mmSocket?.use { socket ->
+                //소켓을 통해 원격 장치에 연결
+                //이 호출은 성공하거나 예외를 발생할 때까지 차단한다.
+                socket.connect()
+
+                //연결 시도 성공
+                //연결과 관련된 작업을 별도의 스레드에서 수행
+                manageMyConnectedSocket(socket)
+            }
+        }
+
+        //클라이언트 소켓을 닫고 스레드 완료하기
+        fun cancel() {
+            try {
+                mmSocket?.close()
+            } catch (e: IOException) {
+                Log.d("로그_소켓수신_오류", "Could not close the client socket")
+            }
+        }
+    }
+
+
 
     override fun onDestroy() {
         super.onDestroy()
