@@ -1,15 +1,13 @@
 package com.example.lieferung
 
+import android.app.AlertDialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.bluetooth.le.BluetoothLeScanner
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
@@ -20,13 +18,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.Lifecycle
 import com.example.lieferung.databinding.FragmentReservationBinding
+import kotlinx.android.synthetic.main.ble_list_dialog.*
+import kotlinx.android.synthetic.main.fragment_reservation.*
 import java.util.jar.Manifest
-
-//private const val SELECT_DEVICE_REQUEST_CODE = 0
 
 class FragmentReservation : Fragment() {
 
@@ -39,36 +38,26 @@ class FragmentReservation : Fragment() {
     private val listOfArrival = ArrayList<SpinnerModel>()
 
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+    private var bluetoothDevice = mutableListOf<BluetoothDevice>()
+    private lateinit var arrayAdapter: ArrayAdapter<String>
+    private var bluetoothDevicesName = mutableListOf<String>()
 
-//    private var scanning = false
-//    private val handler = Handler()
-//    //10초 후 스캔 중지
-//    private val SCAN_PERIOD: Long = 10000
-//    private val bluetoothLeScanner: BluetoothLeScanner get() {
-//        val bluetoothManager = requireContext().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-//        val bluetoothAdapter = bluetoothManager.adapter
-//
-//        return bluetoothAdapter.bluetoothLeScanner
-//    }
+    /*private lateinit var bluetoothAdapterName: AlertDialogAdapter
+    private lateinit var bluetoothAdapterAddress: AlertDialogAdapter
+    private val listOfName = ArrayList<AlertDialogModel>()
+    private val listOfAddress = ArrayList<AlertDialogModel>()*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = FragmentReservationBinding.inflate(layoutInflater)
-
-
-
-        //장치가 발견되면 브로드캐스트에 등록
-        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-        //registerReceiver(receiver, filter)
-
-        scanDevice()
 
         setupSpinnerStart()
         setupSpinnerArrival()
         setupSpinnerHandler()
 
         binding.btnReservation.setOnClickListener {
-
+            val intent = Intent(requireContext(), BLEListActivity::class.java)
+            startActivity(intent)
         }
 
 
@@ -78,18 +67,12 @@ class FragmentReservation : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        binding.btnReservation.setOnClickListener {
-//            view: View -> scanLeDevice()
-//        }
         return binding.root
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-
-        //ACTION_FOUND 수신기 등록 취소
-        //unregisterReceiver(receiver)
     }
 
     private fun setupSpinnerStart() {
@@ -145,95 +128,6 @@ class FragmentReservation : Fragment() {
             }
         }
     }
-
-    private fun scanDevice() {
-        //페어링된 기기가 있는지 확인
-        val pairedDevice: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
-
-        pairedDevice?.forEach { device ->
-            val deviceName = device.name
-            val deviceHardwareAddress = device.address      //MAC 주소
-
-            if (device != null) {
-                for (i in deviceName) {
-                    Log.d("로그_BLE_List: ", "${deviceName}/${deviceHardwareAddress}")
-                }
-
-            } else {
-                Log.d("로그_BLE_List: ", "페어링된 기기가 없습니다.")
-            }
-        }
-    }
-
-
-
-//    private fun scanLeDevice() {
-//        val bluetoothManager = context?.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-//        val bluetoothAdapter = bluetoothManager.adapter
-//        val bluetoothLeScanner = bluetoothAdapter.bluetoothLeScanner
-//
-//        if (!scanning) {
-//            //사전 정의된 검색 기간이 지나면 검색 중지
-//            handler.postDelayed({
-//                scanning = false
-//                bluetoothLeScanner.stopScan(leScanCallback)
-//            }, SCAN_PERIOD)
-//            scanning = true
-//
-//            Log.d("로그_ScanDeviceStart: ", "startScan()")
-//            when (PermissionChecker.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION)) {
-//                PackageManager.PERMISSION_GRANTED -> bluetoothLeScanner.startScan(leScanCallback)
-//
-//                else -> requestPermissions(arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION), 1)
-//            }
-//        } else {
-//            scanning = false
-//            bluetoothLeScanner.stopScan(leScanCallback)
-//        }
-//    }
-
-    //디바이스 스캔 Callback
-//    private val leScanCallback = object: ScanCallback() {
-//        override fun onScanResult(callbackType: Int, result: ScanResult?) {
-//            super.onScanResult(callbackType, result)
-//
-//            Log.d("로그_ScanDevice: ", "leScanCallback >>")
-//            Log.d("로그_ScanDevice: ", "onScanResult(): ${result?.device?.address} - ${result?.device?.name}")
-//        }
-//
-//        override fun onBatchScanResults(results: MutableList<ScanResult>?) {
-//            super.onBatchScanResults(results)
-//
-//            Log.d("로그_DeviceList: ", "onBatchScanResults: ${results.toString()}")
-//        }
-//
-//        override fun onScanFailed(errorCode: Int) {
-//            super.onScanFailed(errorCode)
-//
-//            Log.d("DeviceList: ", "onScanFailed: $errorCode")
-//        }
-//    }
-
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        when (requestCode) {
-//            1 -> when (grantResults) {
-//                intArrayOf(PackageManager.PERMISSION_GRANTED) -> {
-//                    Log.d("로그_ScanDevices: ", "onRequestPermissionsResult(PERMISSION_GRANTED")
-//
-//                    bluetoothLeScanner.startScan(leScanCallback)
-//                }
-//                else -> {
-//                    Log.d("로그_ScanDevice: ", "onRequestPermissionsResult(not PERMISSION_GRANTED")
-//                }
-//            } else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        }
-//
-//    }
-
 
 
 }

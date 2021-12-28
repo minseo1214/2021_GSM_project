@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BLEListActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:onClick="@{activity::backBtnClick}"
+            android:layout_width="18dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_arrow"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/BLE_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BLE_STATUS"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:fontFamily="@font/scd5_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+
+    <Button
+        android:id="@+id/BLE_btn_paired"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:onClick="@{onClickButtonPaired}"
+        android:text="Paired Devices"
+        android:textSize="13sp"
+        android:textColor="@color/base"
+        android:textStyle="normal"
+        android:fontFamily="@font/scd7_extra_bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BLE_status"/>
+
+    <Button
+        android:id="@+id/BLE_btn_search"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:onClick="@{onclickButtonSearch}"
+        android:text="Device Search"
+        android:textSize="13sp"
+        android:textColor="@color/base"
+        android:textStyle="normal"
+        android:fontFamily="@font/scd7_extra_bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BLE_btn_paired"/>
+
+    <ListView
+        android:id="@+id/BLE_listview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BLE_btn_search"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

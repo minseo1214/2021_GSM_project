@@ -17,11 +17,13 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.lieferung.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.security.Permission
 
 private const val TAG_HOME = "home_fragment"
 private const val TAG_RESERVATION = "reservation_fragment"
@@ -32,10 +34,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     val MY_PERMISSION_ACCESS_ALL = 100
-
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     val REQUEST_ENABLE_BT: Int = 1 //블루투스 활성화
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(view)
 
+        //권한 요청
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             var permission = arrayOf(
@@ -53,8 +54,6 @@ class MainActivity : AppCompatActivity() {
             )
             ActivityCompat.requestPermissions(this, permission, MY_PERMISSION_ACCESS_ALL)
         }
-
-
 
         //맨 처음 보이는 프래그먼트 설정
         setFragment(TAG_HOME, FragmentHome())
@@ -72,6 +71,24 @@ class MainActivity : AppCompatActivity() {
         //fragment 설정
 /*        val resultFragmentId = intent.getIntExtra("selectFragmentId", 1)
         binding.naviBar.selectedItemId = resultFragmentId   */
+    }
+
+    //권한 확인 - 권한을 거부하면 앱 종료
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode === MY_PERMISSION_ACCESS_ALL) {
+            if (grantResults.size > 0) {
+                for (grant in grantResults) {
+                    if (grant != PackageManager.PERMISSION_GRANTED)
+                        System.exit(0)
+                }
+            }
+        }
     }
 
     private fun setFragment(tag: String, fragment: Fragment) {
@@ -117,25 +134,6 @@ class MainActivity : AppCompatActivity() {
         //마무리
         ft.commitAllowingStateLoss()
         //ft.commit()
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        //사용자가 권한을 거부하면 앱 종료
-        if (requestCode === MY_PERMISSION_ACCESS_ALL) {
-            if (grantResults.size > 0) {
-                for (grant in grantResults) {
-                    if (grant != PackageManager.PERMISSION_GRANTED) {
-                        System.exit(0)
-                    }
-                }
-            }
-        }
     }
 
     override fun onResume() {
