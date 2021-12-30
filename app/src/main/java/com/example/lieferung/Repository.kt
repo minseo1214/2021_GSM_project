@@ -233,39 +233,6 @@ class Repository {
         }.run()
     }
 
-    //변환
-    //ByteToUint: byte[] -> uint
-    //byteArrayToHex: byte[] -> hex string
-    private val m_ByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(8)
-    // byte -> uint
-    fun ByteToUint(data: ByteArray?, offset: Int, endian: ByteOrder): Long {
-        synchronized(m_ByteBuffer) {
-            m_ByteBuffer.clear()
-            m_ByteBuffer.order(endian)
-            m_ByteBuffer.limit(8)
-
-            if (endian === ByteOrder.LITTLE_ENDIAN) {
-                m_ByteBuffer.put(data, offset, 4)
-                m_ByteBuffer.putInt(0)
-            } else {
-                m_ByteBuffer.putInt(0)
-                m_ByteBuffer.put(data, offset, 4)
-            }
-            m_ByteBuffer.position(0)
-            return m_ByteBuffer.long
-        }
-    }
-
-    // byte -> hex
-    fun byteArrayToHex(a: ByteArray): String? {
-        val sb = StringBuilder()
-
-        for (b in a) {
-            sb.append(String.format("%02x ", b))
-        }
-        return sb.toString()
-    }
-
     //블루투스 데이터 수신 Listener
     @ExperimentalUnsignedTypes
     fun beginListenForData() {

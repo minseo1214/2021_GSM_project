@@ -1,13 +1,9 @@
 package com.example.lieferung.viewmodel
 
-import android.app.Application
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
 import com.example.lieferung.Repository
-import com.example.lieferung.ui.FragmentReservation
-import com.example.lieferung.ui.SpinnerAdapter
-import com.example.lieferung.ui.SpinnerModel
 import com.example.lieferung.util.*
 import java.nio.charset.Charset
 
