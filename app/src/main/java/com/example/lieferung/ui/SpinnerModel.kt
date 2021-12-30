@@ -1,4 +1,4 @@
-package com.example.lieferung
+package com.example.lieferung.ui
 
 data class SpinnerModel(
     val text: String

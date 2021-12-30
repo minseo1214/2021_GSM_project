@@ -1,29 +1,14 @@
 package com.example.lieferung
 
-import android.Manifest
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.content.pm.PackageManager
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.AdapterView
-import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lieferung.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.security.Permission
+import com.example.lieferung.ui.FragmentReservation
+import com.example.lieferung.viewmodel.ReserveViewModel
 
 private const val TAG_HOME = "home_fragment"
 private const val TAG_RESERVATION = "reservation_fragment"
@@ -33,10 +18,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    val MY_PERMISSION_ACCESS_ALL = 100
-    private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
-    val REQUEST_ENABLE_BT: Int = 1 //블루투스 활성화
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,16 +25,6 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
 
         setContentView(view)
-
-        //권한 요청
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            var permission = arrayOf(
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
-            )
-            ActivityCompat.requestPermissions(this, permission, MY_PERMISSION_ACCESS_ALL)
-        }
 
         //맨 처음 보이는 프래그먼트 설정
         setFragment(TAG_HOME, FragmentHome())
@@ -71,24 +42,6 @@ class MainActivity : AppCompatActivity() {
         //fragment 설정
 /*        val resultFragmentId = intent.getIntExtra("selectFragmentId", 1)
         binding.naviBar.selectedItemId = resultFragmentId   */
-    }
-
-    //권한 확인 - 권한을 거부하면 앱 종료
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode === MY_PERMISSION_ACCESS_ALL) {
-            if (grantResults.size > 0) {
-                for (grant in grantResults) {
-                    if (grant != PackageManager.PERMISSION_GRANTED)
-                        System.exit(0)
-                }
-            }
-        }
     }
 
     private fun setFragment(tag: String, fragment: Fragment) {
@@ -135,24 +88,5 @@ class MainActivity : AppCompatActivity() {
         ft.commitAllowingStateLoss()
         //ft.commit()
     }
-
-    override fun onResume() {
-        super.onResume()
-
-        //해당 기기 BLE 지원 여부
-        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-            Toast.makeText(this, "이 기기는 BLE를 지원하지 않습니다.", Toast.LENGTH_LONG).show()
-            Log.d("로그_BLE_지원여부","지원X")
-        } else{
-            Log.d("로그_BLE_지원여부", "지원O")
-            //블루투스 활성화 - false를 반환하는 경우 블루투스 비활성화된 상태
-            if (bluetoothAdapter?.isEnabled == false) {
-                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
-            }
-        }
-    }
-
-
 
 }

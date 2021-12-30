@@ -1,4 +1,4 @@
-package com.example.lieferung
+package com.example.lieferung.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.annotation.Dimension
 import androidx.annotation.LayoutRes
 import com.example.lieferung.databinding.ItemSpinnerBinding
 import java.lang.Exception

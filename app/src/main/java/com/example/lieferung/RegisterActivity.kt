@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import com.example.lieferung.databinding.ActivityRegisterBinding
+import com.example.lieferung.ui.SpinnerAdapter
+import com.example.lieferung.ui.SpinnerModel
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -45,7 +47,6 @@ class RegisterActivity : AppCompatActivity() {
                     Log.d("로그","Selected: ${phone.text}")
                 }
             }
-
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
             }
