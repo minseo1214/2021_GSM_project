@@ -37,6 +37,8 @@
     <string name="people">명</string>
     <string name="receive_time">수령 시간</string>
     <string name="reserve">예약</string>
+    <string name="connect">연결</string>
+    <string name="disconnect">비연결</string>
 
     <string name="can_reserve1">로봇예약이 </string>
     <string name="can_reserve2_1">가능</string>

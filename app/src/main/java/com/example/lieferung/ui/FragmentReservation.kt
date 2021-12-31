@@ -41,11 +41,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FragmentReservation : Fragment() {
 
-    private var _binding: FragmentReservationBinding? = null
-    private val binding get() = _binding!!
+    lateinit var binding : FragmentReservationBinding
 
     private val  viewModel by viewModel<ReserveViewModel>()
 
+    var mBluetoothAdapter: BluetoothAdapter? = null
     var recv: String = ""
 
     private lateinit var spinnerAdapterStart: SpinnerAdapter
@@ -53,8 +53,8 @@ class FragmentReservation : Fragment() {
     private val listOfStart = ArrayList<SpinnerModel>()
     private val listOfArrival = ArrayList<SpinnerModel>()
 
-    private lateinit var point1: String
-    private lateinit var point2: String
+//    private var point1: String = binding.spinnerStartPoint.selectedItem.toString()
+//    private var point2: String = binding.spinnerArrivalPoint.selectedItem.toString()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,23 +69,26 @@ class FragmentReservation : Fragment() {
 
         initObserving()
 
-        binding.btnReservation.setOnClickListener {
-            viewModel.onClickSendData(point1, point2)
-        }
+//        binding.btnReservation.setOnClickListener {
+//            //viewModel.onClickSendData(point1, point2)
+//        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? =
-        FragmentReservationBinding.inflate(inflater, container, false).also {
-            _binding = it
-        }.root
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_reservation, container, false)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+        return binding.root
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding
+        binding
     }
 
     private fun setupSpinnerStart() {
@@ -119,8 +122,8 @@ class FragmentReservation : Fragment() {
 
                 if (!start.text.equals("출발지를 선택하세요")) {
                     Log.d("로그_출발지", "Selected: ${start.text}")
+                    //point1 = start.text
                 }
-                point1 = binding.spinnerStartPoint.selectedItem.toString()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -134,8 +137,8 @@ class FragmentReservation : Fragment() {
 
                 if (!arrival.text.equals("목적지를 선택하세요")) {
                     Log.d("로그_도착지", "Selected: ${arrival.text}")
+                    //point2 = arrival.text
                 }
-                point2 = binding.spinnerArrivalPoint.selectedItem.toString()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -152,6 +155,20 @@ class FragmentReservation : Fragment() {
     }
 
     private fun initObserving() {
+        //Progress
+        viewModel.inProgress.observe(viewLifecycleOwner, {
+            if (it.getContentIfNotHandled() == true) {
+                viewModel.inProgressView.set(true)
+            } else {
+                viewModel.inProgressView.set(false)
+            }
+        })
+
+        //Progress text
+        viewModel.progressState.observe(viewLifecycleOwner, {
+            viewModel.txtProgress.set(it)
+        })
+
         //블루투스 On 요청
         viewModel.requestBleOn.observe(viewLifecycleOwner, {
             val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -162,9 +179,11 @@ class FragmentReservation : Fragment() {
         viewModel.connected.observe(viewLifecycleOwner, {
             if (it != null) {
                 if (it) {
+                    viewModel.setInProgress(false)
                     viewModel.btnConnected.set(true)
                     Util.showNotification("디바이스와 연결되었습니다.")
                 } else {
+                    viewModel.setInProgress(false)
                     viewModel.btnConnected.set(false)
                     Util.showNotification("디바이스와 연결이 해제되었습니다.")
                 }
@@ -174,6 +193,7 @@ class FragmentReservation : Fragment() {
         //블루투스 연결 에러
         viewModel.connectError.observe(viewLifecycleOwner, {
             Util.showNotification("연결 오류.\n디바이스를 다시 확인해주세요")
+            viewModel.setInProgress(false)
         })
 
         //데이터 받기
@@ -195,6 +215,7 @@ class FragmentReservation : Fragment() {
         return true
     }
 
+    //권한 확인
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -224,5 +245,9 @@ class FragmentReservation : Fragment() {
         super.onPause()
         viewModel.unregisterReceiver()
     }
+
+//    override fun onBackPressed() {
+//        viewModel.setInProgress(false)
+//    }
 
 }

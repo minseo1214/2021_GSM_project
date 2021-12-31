@@ -71,32 +71,75 @@
         app:layout_constraintStart_toEndOf="@+id/name"/>
 
     <TextView
-        android:id="@+id/phone"
+        android:id="@+id/id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="41dp"
         android:layout_marginStart="25dp"
-        android:text="@string/phone"
+        android:text="@string/id"
         android:textColor="@color/base"
         android:textSize="12sp"
         android:fontFamily="@font/scd7_extra_bold"
         app:layout_constraintTop_toBottomOf="@+id/name"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <Spinner
-        android:id="@+id/spinner_phone"
-        android:layout_width="57dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginStart="13dp"
-        android:spinnerMode="dropdown"
-        android:dropDownWidth="170dp"
-        android:paddingStart="11dp"
-        android:background="@drawable/bg_spinner_phone"
-        app:layout_constraintTop_toBottomOf="@+id/edit_name"
-        app:layout_constraintStart_toEndOf="@+id/phone"/>
 
+    <EditText
+        android:id="@+id/edit_id"
+        android:layout_width="260dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="25dp"
+        android:paddingStart="15dp"
+        android:background="@drawable/signup_edittext_border"
+        android:hint="@string/type_id"
+        android:textColor="@color/text"
+        android:textSize="10sp"
+        android:fontFamily="@font/scd5_medium"
+        app:layout_constraintTop_toBottomOf="@id/edit_name"
+        app:layout_constraintStart_toEndOf="@+id/id"/>
 
+    <TextView
+        android:id="@id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
+        android:layout_marginStart="25dp"
+        android:text="@string/pw"
+        android:textColor="@color/base"
+        android:textSize="12sp"
+        android:fontFamily="@font/scd7_extra_bold"
+        app:layout_constraintTop_toBottomOf="@+id/id"
+        app:layout_constraintStart_toStartOf="parent"/>
 
+    <EditText
+        android:id="@+id/edit_pw"
+        android:layout_width="260dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="15dp"
+        android:paddingStart="15dp"
+        android:background="@drawable/signup_edittext_border"
+        android:hint="@string/type_pw"
+        android:textColor="@color/text"
+        android:textSize="10sp"
+        android:fontFamily="@font/scd5_medium"
+        app:layout_constraintTop_toBottomOf="@+id/edit_id"
+        app:layout_constraintStart_toEndOf="@+id/password"/>
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="360dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/main_color_button"
+        android:gravity="center"
+        android:text="@string/join_mbs"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:fontFamily="@font/scd8_heavy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,8 +24,10 @@ import java.util.*
 
 class Repository {
     var connected: MutableLiveData<Boolean?> = MutableLiveData(null)
+    var progressState: MutableLiveData<String> = MutableLiveData("")
     val putTxt: MutableLiveData<String> = MutableLiveData("")
 
+    val inProgress = MutableLiveData<Event<Boolean>>()
     val connectError = MutableLiveData<Event<Boolean>>()
 
     var mBluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
@@ -66,7 +68,7 @@ class Repository {
 
     //디바이스 스캔
     fun scanDevice() {
-        Util.showNotification("device 스캔 중...")
+        progressState.postValue("device 스캔 중...")
 
         //블루투스 리버시 등록
         registerBluetoothReceiver()
@@ -140,7 +142,7 @@ class Repository {
                             val device_name = device!!.name
                             val device_Address = device.address
 
-                            //블루투스 기기 이름의 앞글자가 ""으로 시작하는 기기만 검색
+                            //블루투스 기기 이름의 앞글자가 "HC-"으로 시작하는 기기만 검색
                             if (device_name != null && device_name.length > 4) {
                                 if (device_name.substring(0, 3) == "HC-") {
                                     //targetDevice 필터링 및 connectToTargetedDevice() 사용
@@ -155,6 +157,7 @@ class Repository {
                     BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> {
                         if (!foundDevice) {
                             Util.showNotification("디바이스를 찾을 수 없습니다.\n다시 시도해주세요.")
+                            inProgress.postValue(Event(false))
                         }
                     }
                 }
@@ -169,7 +172,7 @@ class Repository {
 
     @ExperimentalUnsignedTypes
     private fun connectToTargetedDevice(targetedDevice: BluetoothDevice?) {
-        Util.showNotification("${targetedDevice?.name}에 연결중..")
+        progressState.postValue("${targetedDevice?.name}에 연결 중...")
 
         val thread = Thread {
             //선택된 기기의 이름을 갖는 블루투스 device의 object
@@ -229,6 +232,7 @@ class Repository {
             } catch (e: Exception) {
                 //문자열 전송 도중 오류가 발생한 경우
                 e.printStackTrace()
+                Util.showNotification("데이터 전송에 실패했습니다.")
             }
         }.run()
     }

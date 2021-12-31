@@ -25,12 +25,25 @@ class ReserveViewModel(private val reservation: Repository): ViewModel() {
     val putTxt: LiveData<String>
         get() = reservation.putTxt
 
+    val progressState: LiveData<String>
+        get() = reservation.progressState
+    var inProgressView = ObservableBoolean(false)
+    var txtProgress: ObservableField<String> = ObservableField("")
+    val inProgress: LiveData<Event<Boolean>>
+        get() = reservation.inProgress
 
+
+
+    fun setInProgress(en: Boolean) {
+        reservation.inProgress.value = Event(en)
+    }
 
     fun onClickConnect() {
         if (connected.value == false || connected.value == null) {
             if (reservation.isBluetoothSupport()) { //블루투스 지원 체크
                 if (reservation.isBluetoothEnable()) {  //블루투스 활성화 체크
+                    //Progress Bar
+                    setInProgress(true)
                     //디바이스 스캔 시작
                     reservation.scanDevice()
                 } else {
