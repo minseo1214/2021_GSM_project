@@ -9,13 +9,17 @@ import androidx.appcompat.app.AlertDialog
 import com.example.lieferung.databinding.ActivityRegisterBinding
 import com.example.lieferung.util.Util
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
 
-    private var auth: FirebaseAuth? = null
+    private lateinit var auth: FirebaseAuth
+    private lateinit var localDB: LocalDB
+    val DATABASE_VERSION = 1
+    val DATABASE_NAME = "LocalDB.db"
     val TAG: String = "로그_회원가입"
     var isBlank = false
     var isPwSame = false
@@ -29,6 +33,7 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = Firebase.auth
+        localDB = LocalDB(this, DATABASE_NAME, null, DATABASE_VERSION)  //SQLite 모듈 생성
 
         binding.backBtn.setOnClickListener {
             finish()
@@ -53,10 +58,10 @@ class RegisterActivity : AppCompatActivity() {
 
             if (!isBlank && isPwSame) { //빈칸이 비어있지 않고, 비밀번호가 같다면
                 //id, pw 저장
-
+                createAccount(name, id, pw) //SQL 저장
+                createUser(id, pw)  //Firebase 저장
 
                 //회원가입 성공
-                Util.showNotification("회원가입 성공")
                 Log.d(TAG, "회원가입 성공/ 이름: ${name}, id: ${name}, pw: ${pw}")
 
                 val intent = Intent(this, LoginActivity::class.java)
@@ -64,7 +69,7 @@ class RegisterActivity : AppCompatActivity() {
             } else {
                 //상태에 따른 다이얼로그 띄우기
                 if (isBlank) {  //빈칸이 있을 경우
-                    dialog("bank")
+                    dialog("blank")
                     Log.d(TAG, "빈칸 존재")
                 } else if (!isPwSame) { //입력한 비밀번호가 다를 경우
                     dialog("not same")
@@ -74,11 +79,12 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    //회원가입 실패시 띄워지는 다이얼로그
     fun dialog(type: String) {
         val dialog = AlertDialog.Builder(this)
 
         //빈칸이 있을 경우
-        if (type.equals("")) {
+        if (type.equals("blank")) {
             dialog.setTitle("회원가입 실패")
             dialog.setMessage("빈칸이 있습니다.\n" + "입력란을 모두 작성해주세요!")
         }
@@ -103,8 +109,28 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun createAccount(name: String, id: String, pw: String) {
         if (name.isNotEmpty() && id.isNotEmpty() && pw.isNotEmpty()) {
-            
+        //항목을 다 채웠을 경우
+        // ID 중복확인
+            if (localDB.checkIdExists(id)) {  //ID 중복O
+                Util.showNotification("아이디가 이미 존재합니다.")
+            } else {  //ID 중복X
+                localDB.registerUser(name, id, pw)
+            }
         }
+    }
+
+    private fun createUser(id: String, pw: String) {
+        auth.createUserWithEmailAndPassword(id, pw)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Util.showNotification("회원가입 성공!")
+                } else {
+                    Util.showNotification("회원가입 실패")
+                }
+            }
+            .addOnFailureListener {
+                Util.showNotification("회원가입 실패")
+            }
     }
 
     override fun onDestroy() {
