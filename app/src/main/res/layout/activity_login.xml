@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/id" />
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/btn_login"
         android:layout_width="360dp"
         android:layout_height="50dp"
         android:layout_marginTop="25dp"
@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <Button
-        android:id="@+id/register"
+        android:id="@+id/btn_register"
         android:layout_width="360dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
@@ -69,7 +69,7 @@
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
