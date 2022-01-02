@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -37,7 +37,7 @@
                 android:layout_marginTop="-55dp"
                 android:spinnerMode="dropdown"
                 android:paddingStart="10dp"
-                android:background="@drawable/bg_spinner_station"/>
+                android:background="@drawable/bg_spinner_station" />
 
             <Spinner
                 android:id="@+id/spinner_arrival_point"
@@ -47,7 +47,7 @@
                 android:layout_marginTop="10dp"
                 android:spinnerMode="dropdown"
                 android:paddingStart="10dp"
-                android:background="@drawable/bg_spinner_station"/>
+                android:background="@drawable/bg_spinner_station" />
 
         </LinearLayout>
 
@@ -160,23 +160,24 @@
                 android:id="@+id/btn_reservation"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
-                android:layout_marginBottom="80dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
+                android:layout_marginBottom="80dp"
                 android:background="@drawable/white_button"
                 android:fontFamily="@font/scd7_extra_bold"
                 android:gravity="center"
                 android:text="@string/reserve"
                 android:textColor="@color/main_color"
                 android:textSize="15sp"
-                android:textStyle="normal"
-                android:onClick="@{()->viewModel.onClickSendData(spinnerStartPoint.selectedItem.toString(), spinnerArrivalPoint.selectedItem.toString())}"/>
+                android:textStyle="normal" />
 
         </RelativeLayout>
 
     </FrameLayout>
 
 </layout>
+<!--    android:onClick="@{()->viewModel.onClickSendData()}"-->
+
 <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
 <!--    xmlns:tools="http://schemas.android.com/tools"-->
 <!--    android:layout_width="match_parent"-->

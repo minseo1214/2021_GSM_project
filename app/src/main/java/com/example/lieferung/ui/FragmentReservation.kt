@@ -45,16 +45,12 @@ class FragmentReservation : Fragment() {
 
     private val  viewModel by viewModel<ReserveViewModel>()
 
-    var mBluetoothAdapter: BluetoothAdapter? = null
     var recv: String = ""
 
     private lateinit var spinnerAdapterStart: SpinnerAdapter
     private lateinit var spinnerAdapterArrival: SpinnerAdapter
     private val listOfStart = ArrayList<SpinnerModel>()
     private val listOfArrival = ArrayList<SpinnerModel>()
-
-//    private var point1: String = binding.spinnerStartPoint.selectedItem.toString()
-//    private var point2: String = binding.spinnerArrivalPoint.selectedItem.toString()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -122,7 +118,7 @@ class FragmentReservation : Fragment() {
 
                 if (!start.text.equals("출발지를 선택하세요")) {
                     Log.d("로그_출발지", "Selected: ${start.text}")
-                    //point1 = start.text
+                    viewModel.startPoint.set(start.text)
                 }
             }
 
@@ -137,7 +133,7 @@ class FragmentReservation : Fragment() {
 
                 if (!arrival.text.equals("목적지를 선택하세요")) {
                     Log.d("로그_도착지", "Selected: ${arrival.text}")
-                    //point2 = arrival.text
+                    viewModel.arrivalPoint.set(arrival.text)
                 }
             }
 
@@ -196,13 +192,13 @@ class FragmentReservation : Fragment() {
             viewModel.setInProgress(false)
         })
 
-        //데이터 받기
-        viewModel.putTxt.observe(viewLifecycleOwner, {
-            if (it != null) {
-                recv += it
-                viewModel.txtRead.set(recv)
-            }
-        })
+//        //데이터 받기
+//        viewModel.putTxt.observe(viewLifecycleOwner, {
+//            if (it != null) {
+//                recv += it
+//                viewModel.txtRead.set(recv)
+//            }
+//        })
     }
 
     private fun hasPermissions(context: Context?, permissions: Array<String>): Boolean {
@@ -245,9 +241,5 @@ class FragmentReservation : Fragment() {
         super.onPause()
         viewModel.unregisterReceiver()
     }
-
-//    override fun onBackPressed() {
-//        viewModel.setInProgress(false)
-//    }
 
 }

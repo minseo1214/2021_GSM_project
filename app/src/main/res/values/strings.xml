@@ -11,9 +11,10 @@
     <string name="certify_number">인증번호</string>
     <string name="type_certify">인증번호를 입력해주세요</string>
     <string name="id">아이디</string>
-    <string name="type_id">아이디를 입력해주세요</string>
+    <string name="type_id">이메일를 입력해주세요</string>
     <string name="pw">비밀번호</string>
     <string name="type_pw">비밀번호를 입력해주세요</string>
+    <string name="type_pw_re">비밀번호를 다시 입력해주세요</string>
 
     <string name="find_id">아이디 찾기</string>
     <string name="find_pw">비밀번호 찾기</string>

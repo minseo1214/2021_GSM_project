@@ -1,8 +1,9 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-android-extensions'
-}
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdk 31
@@ -34,11 +35,15 @@ android {
         viewBinding true
     }
     buildFeatures {
-        dataBinding = true
+        dataBinding true
     }
 }
 
 dependencies {
+    //Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:29.0.3')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
 
 //    //멀티덱스 지원
 //    implementation 'androidx.multidex:multidex:2.0.1'

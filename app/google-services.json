@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "164660071206",
+    "project_id": "lieferung-2021",
+    "storage_bucket": "lieferung-2021.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164660071206:android:99c343cd5824e562740fe7",
+        "android_client_info": {
+          "package_name": "com.example.lieferung"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "164660071206-qe5o7nefrtd5tqkvia2s3gie4g80qj6g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lieferung",
+            "certificate_hash": "4963bfc902bb07112c101f42f3be0b2a8886a666"
+          }
+        },
+        {
+          "client_id": "164660071206-bonoif7tejo81b1237acid6cc3nesf2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6-hDE2KA182TXcrzb5aKLKCzTmrXomuE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "164660071206-bonoif7tejo81b1237acid6cc3nesf2c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

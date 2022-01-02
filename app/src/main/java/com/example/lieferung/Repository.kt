@@ -8,10 +8,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.lieferung.util.Event
 import com.example.lieferung.util.SPP_UUID
 import com.example.lieferung.util.Util
+import org.koin.dsl.module
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -23,6 +25,7 @@ import java.nio.ByteOrder
 import java.util.*
 
 class Repository {
+
     var connected: MutableLiveData<Boolean?> = MutableLiveData(null)
     var progressState: MutableLiveData<String> = MutableLiveData("")
     val putTxt: MutableLiveData<String> = MutableLiveData("")
@@ -227,8 +230,8 @@ class Repository {
     fun sendByteData(data1: ByteArray, data2: ByteArray) {
         Thread {
             try {
-                mOutputStream?.write(data1)  //프로토콜 전송
-                mOutputStream?.write(data2)
+                mOutputStream?.write(data1)
+                mOutputStream?.write(data2)  //프로토콜 전송
             } catch (e: Exception) {
                 //문자열 전송 도중 오류가 발생한 경우
                 e.printStackTrace()

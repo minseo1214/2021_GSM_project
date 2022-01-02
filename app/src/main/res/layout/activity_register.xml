@@ -16,7 +16,7 @@
 
         <ImageButton
             android:id="@+id/back_btn"
-            android:onClick="@{activity::backBtnClick}"
+            android:onClick="@{}"
             android:layout_width="18dp"
             android:layout_height="16dp"
             android:layout_marginStart="20dp"
@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="8dp"
             android:text="@string/join_mbs"
             android:textColor="@color/base"
             android:textSize="16sp"
@@ -126,6 +126,22 @@
         android:fontFamily="@font/scd5_medium"
         app:layout_constraintTop_toBottomOf="@+id/edit_id"
         app:layout_constraintStart_toEndOf="@+id/password"/>
+
+    <EditText
+        android:id="@+id/edit_pw_re"
+        android:layout_width="260dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="23dp"
+        android:paddingStart="15dp"
+        android:background="@drawable/signup_edittext_border"
+        android:hint="@string/type_pw_re"
+        android:textColor="@color/text"
+        android:textSize="10sp"
+        android:fontFamily="@font/scd5_medium"
+        app:layout_constraintTop_toBottomOf="@+id/edit_pw"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
         android:id="@+id/btn_register"

@@ -8,6 +8,8 @@ import com.example.lieferung.util.*
 import java.nio.charset.Charset
 
 class ReserveViewModel(private val reservation: Repository): ViewModel() {
+    var startPoint: ObservableField<String> = ObservableField("")
+    var arrivalPoint: ObservableField<String> = ObservableField("")
 
     val connected: LiveData<Boolean?>
         get() = reservation.connected
@@ -63,10 +65,10 @@ class ReserveViewModel(private val reservation: Repository): ViewModel() {
         reservation.unregisterReceiver()
     }
 
-    fun onClickSendData(sendTxt1: String, sendTxt2: String) {
-        val byteArr1 = sendTxt1.toByteArray(Charset.defaultCharset())
-        val byteArr2 = sendTxt2.toByteArray(Charset.defaultCharset())
-        reservation.sendByteData(byteArr1, byteArr2)
-        Util.showNotification("데이터를 전송했습니다.")
-    }
+//    fun onClickSendData(sendTxt1: String, sendTxt2: String) {
+//        startPoint = sendTxt1.toByteArray(Charset.defaultCharset())
+//        arrivalPoint = sendTxt2.toByteArray(Charset.defaultCharset())
+//        reservation.sendByteData(startPoint, arrivalPoint)
+//        Util.showNotification("데이터를 전송했습니다.")
+//    }
 }
