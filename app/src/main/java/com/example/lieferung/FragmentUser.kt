@@ -1,31 +1,83 @@
 package com.example.lieferung
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.lieferung.databinding.FragmentUserBinding
+import com.example.lieferung.util.Util
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FragmentUser.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FragmentUser : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var auth: FirebaseAuth
+    val TAG: String = "로그_유저페이지"
+
+
+    private var _binding: FragmentUserBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+        _binding = FragmentUserBinding.inflate(layoutInflater)
+
+        auth = Firebase.auth
+
+        binding.btnAccount.setOnClickListener {
+            FirebaseAuth.AuthStateListener { task ->
+                val user = task.currentUser
+
+                if (user != null) {
+                    //로그인이 되었을 때
+                    dialog("email")
+                } else {
+                    //로그아웃/로그인이 되지 않았을 때
+                    dialog("login")
+                }
+            }
+        }
+
+        binding.btnLogout.setOnClickListener {
+            //로그인 화면으로 이동
+            Log.d(TAG, "로그아웃 성공")
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+            auth.signOut()
+        }
+
+        binding.btnDropout.setOnClickListener {
+            //로그인 화면으로 이동
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+
+            if (auth != null) {
+                auth.currentUser?.delete()
+                    ?.addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "회원탈퇴 성공")
+                            Util.showNotification("회원정보가 삭제되었습니다.")
+                            startActivity(intent)
+                        }
+                    }
+            }
+        }
+
+    }
+
+    private fun dialog(type: String) {
+        var dialog = AlertDialog.Builder(requireContext())
+
+        if (type.equals("email")) {
+            dialog.setTitle("회원계정")
+            dialog.setMessage(auth.currentUser.toString())
+        } else if (type.equals("login")) {
+            dialog.setTitle("회원계정 확인실패")
+            dialog.setMessage("로그인이 되어있지 않습니다.\n로그인 해주세요.")
         }
     }
 
@@ -33,27 +85,6 @@ class FragmentUser : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FragmentUser.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FragmentUser().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        return binding.root
     }
 }
