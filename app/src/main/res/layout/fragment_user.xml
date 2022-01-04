@@ -46,10 +46,8 @@
         android:layout_width="match_parent"
         android:layout_height="284dp"
         android:layout_marginTop="170dp"
-        android:layout_marginLeft="-5dp"
-        android:layout_marginRight="-5dp"
-        android:background="@drawable/base_bottom_view"
-        android:src="" />
+        android:src="@drawable/map"
+        android:background="@drawable/base_bottom_view"/>
 
     <LinearLayout
         android:layout_width="match_parent"

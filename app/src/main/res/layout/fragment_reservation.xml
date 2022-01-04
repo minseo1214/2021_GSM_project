@@ -51,11 +51,11 @@
 
         </LinearLayout>
 
-<!--        <com.github.chrisbanes.photoview.PhotoView-->
-<!--            android:id="@+id/map"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:src=""/>-->
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/map"/>
 
         <Button
             android:id="@+id/btn_connect"

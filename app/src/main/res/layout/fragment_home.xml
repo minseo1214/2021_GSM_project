@@ -3,14 +3,163 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentHome">
+    tools:context=".FragmentHome"
+    android:background="@color/main_color">
 
-    <TextView
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top">
+
+        <TextView
+            android:id="@+id/robot_reserve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="65dp"
+            android:fontFamily="@font/scd5_medium"
+            android:text="@string/can_reserve1"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/robot_can"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="60dp"
+            android:fontFamily="@font/scd7_extra_bold"
+            android:text="@string/can_reserve2_1"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_toEndOf="@+id/robot_reserve"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="65dp"
+            android:fontFamily="@font/scd5_medium"
+            android:text="@string/can_reserve3"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="normal"
+            android:layout_toEndOf="@+id/robot_can"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:textSize="30sp"
-        android:text="@string/hello_blank_fragment_1" />
+        android:layout_marginTop="150dp"
+        android:background="@drawable/white_bar">
+
+        <ImageView
+            android:id="@+id/battery"
+            android:layout_width="120dp"
+            android:layout_height="280dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="90dp"
+            android:src="@drawable/battery"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="390dp"
+            android:layout_marginStart="70dp"
+            android:fontFamily="@font/scd5_medium"
+            android:text="79%"
+            android:textColor="@color/text"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="180dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="185dp"
+            android:layout_marginTop="65dp"
+            android:background="@drawable/white_bar2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/scd4_regular"
+                android:text="@string/reserve"
+                android:textColor="@color/black"
+                android:textSize="23sp"
+                android:textStyle="normal"/>
+
+            <TextView
+                android:id="@+id/reserve_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="65dp"
+                android:layout_marginStart="65dp"
+                android:fontFamily="@font/scd9_black"
+                android:text="0"
+                android:textColor="@color/main_color"
+                android:textSize="50sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="87dp"
+                android:layout_marginStart="110dp"
+                android:fontFamily="@font/scd5_medium"
+                android:text="/"
+                android:textColor="@color/text"
+                android:textSize="25sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="85dp"
+                android:layout_marginStart="130dp"
+                android:fontFamily="@font/scd5_medium"
+                android:text="2"
+                android:textColor="@color/base"
+                android:textSize="30sp"
+                android:textStyle="bold"/>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="180dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="185dp"
+            android:layout_marginTop="250dp"
+            android:background="@drawable/white_bar2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/scd4_regular"
+                android:text="@string/state"
+                android:textColor="@color/black"
+                android:textSize="23sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="75dp"
+                android:fontFamily="@font/scd7_extra_bold"
+                android:text="@string/wait"
+                android:textColor="@color/main_color"
+                android:textSize="35sp"
+                android:textStyle="normal" />
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
 
 </FrameLayout>
